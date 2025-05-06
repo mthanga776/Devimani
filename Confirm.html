@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Confirmed</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🎉 Order Placed Successfully!</h1>
+  <div id="summary"></div>
+
+  <script>
+    const order = JSON.parse(localStorage.getItem('order'));
+    if (!order) {
+      document.getElementById('summary').innerHTML = "<p>No order found.</p>";
+    } else {
+      let items = "";
+      let total = 0;
+      order.cart.forEach(p => {
+        items += `<li>${p.name} - $${p.price}</li>`;
+        total += p.price;
+      });
+
+      document.getElementById('summary').innerHTML = `
+        <p>Name: ${order.name}</p>
+        <p>Address: ${order.address}</p>
+        <p>Phone: ${order.phone}</p>
+        <p>Payment: ${order.payment}</p>
+        <p>Items:</p>
+        <ul>${items}</ul>
+        <p>Total: $${total}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
