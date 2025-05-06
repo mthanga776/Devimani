@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Your Cart</h1>
+  <div id="cartItems"></div>
+  <h2 id="total"></h2>
+  <a href="checkout.html">Proceed to Checkout</a>
+  <script>
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItemsDiv = document.getElementById('cartItems');
+    const totalDiv = document.getElementById('total');
+    let total = 0;
+
+    if (cart.length === 0) {
+      cartItemsDiv.innerHTML = "<p>Cart is empty</p>";
+    } else {
+      cart.forEach((item, index) => {
+        total += item.price;
+        cartItemsDiv.innerHTML += `
+          <div>
+            <p>${item.name} - $${item.price}</p>
+            <button onclick="removeItem(${index})">Remove</button>
+          </div>
+        `;
+      });
+      totalDiv.innerText = `Total: $${total}`;
+    }
+
+    function removeItem(i) {
+      cart.splice(i, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      location.reload();
+    }
+  </script>
+</body>
+</html>
